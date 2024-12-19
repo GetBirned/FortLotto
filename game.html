@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FortLotto - Play</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body>
+    <video autoplay muted loop id="background-video">
+        <source src="assets/videos/background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <header>
+        <nav id="top-nav">
+            <a href="about.html" class="nav-link nav-left">About</a>
+            <a href="index.html">
+                <img src="assets/images/FortLottoWhite.png" alt="FortLotto Logo" id="logo">
+            </a>
+            <a href="help.html" class="nav-link nav-right">Help</a>
+        </nav>
+        <img src="assets/images/FortLotto_yellow.png" alt="FortLotto Title" id="title-logo">
+        <p id="map-location">Landing Spot: Loading...</p>
+        <div id="win-loss-counter">
+            Wins: <span id="wins">0</span> | Losses: <span id="losses">0</span>
+        </div>
+    </header>
+    
+    <!-- Map Display -->
+    <div id="map-container">
+        <img id="map-image" src="" alt="Fortnite Map">
+    </div>
+
+    <!-- Player cards -->
+    <section id="players"></section>
+
+    <!-- Buttons -->
+    <div id="game-buttons">
+        <button id="spin-button">Spin!</button>
+        <button id="victory-button" style="display: none;">Victory Royale</button>
+        <button id="eliminated-button" style="display: none;">Eliminated</button>
+    </div>
+
+    <div id="post-outcome-options" style="display: none;">
+        <button id="spin-again-button">Spin Again</button>
+        <button id="edit-squad-button">Edit Squad</button>
+    </div>
+
+    <footer id="footer">
+        <p>Created by Dart Birnie - Get-Birned</p>
+    </footer>
+
+    <script>
+        const players = JSON.parse(localStorage.getItem("players")) || [];
+        const gameMode = localStorage.getItem("gameMode") || "Regular";
+        const playersContainer = document.getElementById("players");
+        const winsCounter = document.getElementById("wins");
+        const lossesCounter = document.getElementById("losses");
+        const mapImage = document.getElementById("map-image");
+        const mapLocation = document.getElementById("map-location");
+
+        let wins = parseInt(localStorage.getItem("wins")) || 0;
+        let losses = parseInt(localStorage.getItem("losses")) || 0;
+
+        winsCounter.textContent = wins;
+        lossesCounter.textContent = losses;
+
+        // List of challenges with name and description
+        const challenges = [
+            { name: "Child Lock", description: "The player must immediately enter the nearest car until it breaks." },
+            { name: "John Wick", description: "The player can only use pistols." },
+            { name: "The Terminator", description: "This player can only use shotguns." },
+            { name: "Chris Kyle", description: "This player can only use snipers." },
+            { name: "Second Amendment", description: "The player can only use assault rifles." },
+            { name: "Dance Party", description: "After every kill, the player must emote for at least 3 seconds." },
+            { name: "Buddy System", description: "The player must stay close to a chosen buddy." },
+            { name: "Miner", description: "This player can only use their pickaxe." },
+            { name: "Medic", description: "The player cannot shoot and must focus on healing teammates." },
+            { name: "Rosa Parks", description: "The player cannot leave the battle bus until forced off." },
+            { name: "Out of Breath", description: "The player cannot run for the entirety of the game." },
+            { name: "I Can't Swim!", description: "The player cannot touch water. If they do, they must eliminate themselves." },
+            { name: "Gun Game", description: "After a player gets a kill, they must drop that weapon." },
+            { name: "Sneaky", description: "The player must stay crouched for the entirety of the game." },
+            { name: "Fanum Tax", description: "The player must receive legendary weapons from teammates." },
+            { name: "No-Scope", description: "The player cannot aim down sights." },
+            { name: "Picky", description: "Loot must come only from blue or higher rarity chests." },
+            { name: "Lucky You", description: "This player is safe from all challenges this round." },
+            { name: "Journeyman", description: "The player must jump immediately and land at the selected location." },
+            { name: "Selfish", description: "The player cannot heal or share ammo with teammates." },
+            { name: "Kill Confirmed", description: "The player can only shoot enemies after a teammate has hit them." },
+            { name: "Ol-Reliable", description: "The player can only use the first gun they pick up." },
+            { name: "Fizz Fiend", description: "The player can only heal using shield items." },
+            { name: "Meddie-Betty", description: "The player can only heal using health items." },
+            { name: "Gatcha", description: "The player can only use items from vending machines." },
+            { name: "Fully-Loaded", description: "After every shot, the player must reload their weapon." },
+            { name: "Slippery-Aim", description: "The player must increase sensitivity to maximum." },
+            { name: "Slowpoke", description: "The player must decrease sensitivity to minimum." },
+            { name: "Loot Hog", description: "Loot must come from enemies killed by teammates." },
+            { name: "Social Distancing", description: "The player must stay ~20 meters away from teammates." },
+            { name: "Thrower", description: "The player must intentionally sabotage their team." },
+            { name: "No-Build", description: "The player cannot build structures." },
+            { name: "Fishing is Life", description: "The player can only use loot acquired by fishing." },
+            { name: "Scoped", description: "The player can only use weapons with scopes." },
+            { name: "Vegetarian", description: "The player can only heal with food items." },
+            { name: "Guille Suit", description: "The player can only shoot when inside a bush." },
+            { name: "Grounded", description: "The player cannot jump at all." },
+            { name: "FaZe Montage", description: "The player must 360 before shooting." },
+            { name: "Fullswap", description: "The player must swap inventory with enemies they kill." },
+            { name: "Shallow Pockets", description: "The player can only hold 3 items at a time." },
+            { name: "Rainbow", description: "The player can only hold one item of each rarity." },
+            { name: "Animated", description: "The player must act out healing animations in real life." },
+            { name: "Immersion", description: "The player must act out reload animations in real life." },
+            { name: "Silent But Deadly", description: "The player cannot talk for the entirety of the game." },
+            { name: "Greedy", description: "The player can steal items from teammates anytime." },
+            { name: "Lazy", description: "The player cannot finish off downed enemies." },
+            { name: "No Heal", description: "The player cannot heal and must rely on teammates." },
+            { name: "Secret Service", description: "The player must protect a chosen teammate (VIP)." },
+            { name: "Planner", description: "The player must create their dream inventory and only pick those items." },
+            { name: "Locked Out", description: "The player cannot use doors." }
+        ];
+
+        // List of landing spots for Regular and OG modes
+        const landingSpots = {
+            Regular: [
+                "brutalBoxCars", "Burd", "canyonCrossing", "demonsDojo", "floodedFrogs",
+                "foxyfloodgate", "hopefulHeights", "lostLake", "magicMosses", "maskedMeadows",
+                "nightshiftForrest", "pumpedPower", "seaportCity", "shiningSpan", "shogunsSolitude",
+                "twinkleTerrace", "warriorsWatch", "wiffyWarfs"
+            ],
+            OG: [
+                "anarchyAcres", "dustyDepot", "fatalFields", "flushFactory", "greasyGrove",
+                "lonelyLodge", "moistyMire", "pleasantPark", "retailRow", "saltySprings",
+                "tomatoTown", "wailingWoods"
+            ]
+        };
+
+        // Set default map based on game mode
+        function setDefaultMap() {
+            if (gameMode === "OG") {
+                mapImage.src = "assets/maps/og/ogmap.png";
+                mapImage.style.border = "none";
+            } else {
+                mapImage.src = "assets/maps/regular/regularPlain.png";
+                mapImage.style.border = "3px solid #FFD700";
+            }
+        }
+
+        function spinGame() {
+            const spots = landingSpots[gameMode];
+            const randomSpot = spots[Math.floor(Math.random() * spots.length)];
+            const mapPath = `assets/maps/${gameMode.toLowerCase()}/${randomSpot}.png`;
+
+            mapImage.src = mapPath;
+            mapLocation.textContent = `Landing Spot: ${randomSpot.replace(/([A-Z])/g, ' $1').trim()}`;
+            assignChallenges();
+            toggleGameButtons(true);
+        }
+
+        function assignChallenges() {
+            const usedChallenges = new Set();
+            document.querySelectorAll(".player-card").forEach(playerCard => {
+                let challenge;
+                do {
+                    challenge = challenges[Math.floor(Math.random() * challenges.length)];
+                } while (usedChallenges.has(challenge.name));
+                usedChallenges.add(challenge.name);
+
+                playerCard.querySelector(".challenge-name").textContent = challenge.name;
+                playerCard.querySelector(".challenge-description").textContent = challenge.description;
+            });
+        }
+
+        function handleVictory() {
+            wins++;
+            winsCounter.textContent = wins;
+            localStorage.setItem("wins", wins);
+            launchConfetti();
+            togglePostOutcomeButtons();
+        }
+
+        function handleEliminated() {
+            losses++;
+            lossesCounter.textContent = losses;
+            localStorage.setItem("losses", losses);
+            alert("Eliminated! 😢");
+            togglePostOutcomeButtons();
+        }
+
+        function toggleGameButtons(show) {
+            document.getElementById("spin-button").style.display = show ? "none" : "inline-block";
+            document.getElementById("victory-button").style.display = show ? "inline-block" : "none";
+            document.getElementById("eliminated-button").style.display = show ? "inline-block" : "none";
+            document.getElementById("post-outcome-options").style.display = "none";
+        }
+
+        function togglePostOutcomeButtons() {
+            document.getElementById("victory-button").style.display = "none";
+            document.getElementById("eliminated-button").style.display = "none";
+            document.getElementById("post-outcome-options").style.display = "block";
+        }
+
+        function launchConfetti() {
+            confetti({
+                particleCount: 300, // Increase the number of confetti particles
+                spread: 100, // Increase spread to make it cover more area
+                origin: { y: 0.6 }, // Starting point for confetti
+                scalar: 1.5 // Slightly increase confetti size for better visibility
+            });
+
+            // Launch confetti in bursts for a longer effect
+            let count = 0;
+            const interval = setInterval(() => {
+                confetti({
+                    particleCount: 200,
+                    spread: 120,
+                    origin: { y: 0.6 },
+                    scalar: 1.5
+                });
+                count++;
+                if (count > 4) clearInterval(interval); // Stop bursts after a few repetitions
+            }, 300); // Burst interval every 300ms
+        }
+
+        document.getElementById("edit-squad-button").addEventListener("click", () => {
+            const saveCounters = confirm("Would you like to save your win/loss counter?");
+            if (!saveCounters) {
+                // Reset counters if the user chooses not to save
+                localStorage.removeItem("wins");
+                localStorage.removeItem("losses");
+            }
+            window.location.href = "index.html"; // Redirect to the setup page
+        });
+
+        // Initialization
+        setDefaultMap();
+        players.forEach(player => {
+            playersContainer.innerHTML += `
+                <div class="player-card">
+                    <img src="${player.icon}" alt="Player Icon" style="width: 80px; height: 80px; border-radius: 50%;">
+                    <h3>${player.gamertag}</h3>
+                    <p>Challenge: <span class="challenge-name">None</span></p>
+                    <p class="challenge-description" style="color: #BBB;">Description will appear here</p>
+                </div>
+            `;
+        });
+
+        // Event Listeners
+        document.getElementById("spin-button").addEventListener("click", spinGame);
+        document.getElementById("victory-button").addEventListener("click", handleVictory);
+        document.getElementById("eliminated-button").addEventListener("click", handleEliminated);
+        document.getElementById("spin-again-button").addEventListener("click", spinGame);
+        document.getElementById("edit-squad-button").addEventListener("click", () => {
+            window.location.href = "index.html";
+        });
+    </script>
+</body>
+</html>

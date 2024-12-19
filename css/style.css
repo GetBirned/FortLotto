@@ -1,0 +1,338 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: url("../assets/images/backgroundTT.png") no-repeat center center fixed;
+    background-size: cover;
+    color: #FFF;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full viewport height */
+}
+
+header h1 {
+    color: #FFD700;
+}
+
+form {
+    background: #333;
+    padding: 20px;
+    border-radius: 10px;
+    display: inline-block;
+    color: #FFF;
+}
+
+/* Title logo styling */
+#title-logo {
+    display: block;
+    margin: 10px auto;
+    width: 200px;
+    height: auto;
+}
+
+#description {
+    font-size: 1rem;
+    color: #FFF;
+    margin: 10px auto;
+    max-width: 600px;
+    line-height: 1.5;
+    text-align: center;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+label, select, button {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+}
+
+button {
+    margin: 5px auto; /* Center the button horizontally */
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #FFD700;
+    color: #333;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    display: block; /* Ensures it respects the margin */
+}
+
+button:hover {
+    background-color: #FFC300;
+}
+
+#player-inputs div {
+    margin-top: 10px;
+}
+
+#game-buttons {
+    margin: 20px 0;
+}
+
+/* Player icons */
+#players img {
+    display: block;
+    margin: 10px auto;
+    border: 2px solid #FFD700;
+    border-radius: 50%;
+}
+
+.challenge-description {
+    font-size: 0.9rem;
+    color: #BBB;
+    margin-top: 5px;
+}
+
+#logo {
+    width: 60px;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+#logo:hover {
+    transform: scale(1.05);
+}
+
+#win-loss-counter {
+    font-size: 1.2rem;
+    margin: 10px auto;
+    color: #FFD700;
+}
+
+#background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+.player {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+/* Custom Dropdown */
+.custom-dropdown {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #FFF;
+    width: 100%;
+    max-width: 250px;
+}
+
+.selected-option {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    color: #000; /* Black text */
+}
+
+.selected-option img.icon-preview {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+/* Dropdown Options */
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #FFF;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #000; /* Black text for options */
+}
+
+.option img.icon-option {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Custom Dropdown Styling (Icon + Text) */
+.custom-dropdown {
+    position: relative;
+    cursor: pointer;
+}
+
+.selected-option {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 5px 10px;
+    color: #000;
+    font-size: 1rem;
+}
+
+.selected-option img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.dropdown-options {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #FFF;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    padding: 5px 10px;
+    cursor: pointer;
+    color: #000;
+    font-size: 1rem;
+}
+
+.option img {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+    border-radius: 50%;
+}
+
+.option:hover {
+    background-color: #f0f0f0;
+}
+
+/* Footer Styling */
+#footer {
+    margin-top: auto; /* Push footer to the bottom */
+    width: 100%;
+    color: #FFF;
+    text-align: center;
+    padding: 10px 0;
+    font-size: 0.9rem;
+}
+
+#footer p {
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+#map-container {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#map-image {
+    width: 80%;
+    max-width: 800px;
+    border: 3px solid #FFD700;
+    border-radius: 10px;
+}
+
+#top-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 10px;
+}
+
+.nav-link {
+    color: #FFF !important; /* Explicitly set to white */
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-decoration: none;
+    position: absolute;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+#top-nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #FFD700; /* Yellow Text */
+    font-size: 1.2rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.nav-left {
+    left: 20px; /* Position to the left */
+}
+
+.nav-right {
+    right: 20px; /* Position to the right */
+}
+
+.social-links a {
+    color: #FFF; /* White text */
+    text-decoration: none; /* Removes underline */
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+.social-links a:hover {
+    color: #FFD700; /* Yellow text on hover */
+    text-decoration: underline; /* Adds underline on hover */
+}
+
+.nav-link:hover {
+    color: #FFF; 
+    transform: scale(1.1); /* Slight scale effect */
+}
+
+/* Blue Team Leader Image */
+#blue-skin {
+    width: 150px; /* Adjust size as needed */
+    margin: 20px auto;
+    display: block;
+}
+
+/* Get Griddy Image */
+#get-griddy {
+    width: 200px; /* Adjust size as needed */
+    margin: 20px auto;
+    display: block;
+    border: 3px solid #FFD700; /* Yellow border */
+    border-radius: 5px; /* Optional rounded corners */
+}
+
+/* Paragraph Content Centering */
+#text-content {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: justify;
+    color: #FFF; /* Ensures text is visible */
+    line-height: 1.6;
+    padding: 20px;
+}
+

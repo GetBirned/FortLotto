@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FortLotto Setup</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <video autoplay muted loop id="background-video">
+        <source src="assets/videos/background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
+    <header>
+        <nav id="top-nav">
+            <a href="about.html" class="nav-link nav-left">About</a>
+            <a href="index.html">
+                <img src="assets/images/FortLottoWhite.png" alt="FortLotto Logo" id="logo">
+            </a>
+            <a href="help.html" class="nav-link nav-right">Help</a>
+        </nav>
+        <img src="assets/images/FortLotto_yellow.png" alt="FortLotto Title" id="title-logo">
+        <p id="description">
+            FortLotto is a fun and interactive game that adds a unique twist to your Fortnite matches! 
+            Choose your game mode (Regular or OG), set your squad size, and let FortLotto randomly generate 
+            challenges and landing spots for your team. Each round offers exciting and unpredictable tasks, 
+            making every match a fresh and thrilling experience!
+        </p>
+    </header>
+    
+
+    <main>
+        <form id="setup-form">
+            <label for="game-mode">Choose Game Mode:</label>
+            <select id="game-mode">
+                <option value="Regular">Regular</option>
+                <option value="OG">OG</option>
+            </select>
+
+            <label for="squad-size">Select Squad Size:</label>
+            <select id="squad-size">
+                <option value="1">Solos</option>
+                <option value="2">Duos</option>
+                <option value="3">Trios</option>
+                <option value="4">Squads</option>
+            </select>
+
+            <div id="player-inputs"></div>
+            <button type="submit">Let's Spin!</button>
+        </form>
+    </main>
+
+    <script src="js/main.js"></script>
+    <footer id="footer">
+        <p>Created by Dart Birnie - Get-Birned</p>
+    </footer>
+</body>
+</html>
