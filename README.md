@@ -1,0 +1,1 @@
+FortLotto is a strat-roulette game for Fortnite. When you get bored of the normal gameplay loop of Fortnite, boot up FortLotto and your entire squad will be given a dropzone + challenges/rules they must follow for the entirety of the match. Keep track of your wins and losses for a session.
