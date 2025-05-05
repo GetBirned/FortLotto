@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/images/FortLottoWhite.png" alt="FortLotto Logo" width="400">
+  <img src="assets/images/FortLottoWhite.png" alt="FortLotto Logo">
 </p>
 
 # FortLotto
