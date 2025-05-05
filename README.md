@@ -2,6 +2,10 @@
   <img src="assets/images/FortLottoWhite.png" alt="FortLotto Logo">
 </p>
 
+<p align="center">
+  <a href="https://getbirned.github.io/FortLotto/index.html"><strong>Play FortLotto Here</strong></a>
+</p>
+
 # FortLotto
 
 **FortLotto** is a fun strat-roulette game designed for Fortnite squads who want to spice up their matches. When normal gameplay starts to feel repetitive, fire up FortLotto to receive randomized drop locations and unique challenges for each squad member. Track your wins and losses throughout your session.
